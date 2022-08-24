@@ -25,7 +25,7 @@ def get_owner(request: WSGIRequest) -> [bool, Owner]:
         return success, message_dict
 
 
-def get_error_dict(serializer: ModelSerializer, status_code: int = None):
+def get_error_dict(serializer: ModelSerializer, status_code: int):
     error_dict = {}
 
     for key, value in serializer.errors.items():

@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 
 from api_v1.authentication import ApiAuthentication
-from api_v1.models import Owner, SysUser
-from api_v1.serializers import UserSerializer
+from api_v1.models import Owner, SysUser, Transaction
+from api_v1.serializers import UserSerializer, TransactionSerializer
 from utils.functions import response_message, get_error_dict, get_owner
 
 
@@ -138,6 +138,85 @@ class UserConfigView(viewsets.ViewSet):
         else:
             message_dict = {
                 'message': 'This user does not exist',
+                'status_code': 400
+            }
+
+        return response_message(message_dict)
+
+
+class TransactionView(viewsets.ViewSet):
+    authentication_classes = [ApiAuthentication]
+
+    serializer_class = TransactionSerializer
+
+    queryset = ''
+
+    def list(self, request):
+        success, owner = get_owner(request)
+
+        if not success:
+            return response_message(owner)
+
+        transaction_list = Transaction.objects.filter(owner=owner)
+
+        transaction_dict_list = []
+        for transaction_temp in transaction_list:
+            transaction_dict_list.append({
+                'title': transaction_temp.title,
+                'value': transaction_temp.value,
+                'category': transaction_temp.category,
+                'type': transaction_temp.type,
+                'uuid': str(transaction_temp.uuid)
+            })
+
+        message_dict = {
+            'message': '',
+            'transaction_list': transaction_dict_list,
+            'status_code': 200
+        }
+
+        return response_message(message_dict)
+
+    def create(self, request):
+        serializer = TransactionSerializer(data=request.data)
+
+        success, owner = get_owner(request)
+
+        if not success:
+            return response_message(owner)
+
+        if serializer.is_valid():
+
+            transaction: Transaction = serializer.save(owner=owner)
+
+            message_dict = {
+                'message': f'Transaction <b>{transaction.title}</b> created successfully',
+                'uuid': str(transaction.uuid),
+                'status_code': 200
+            }
+
+            return response_message(message_dict)
+        else:
+            return get_error_dict(serializer, status_code=400)
+
+    def delete(self, request, *args, **kwargs):
+        success, owner = get_owner(request)
+
+        if not success:
+            return response_message(owner)
+
+        transaction = Transaction.objects.filter(owner=owner, uuid=request.headers.get('Transaction-uuid')).first()
+
+        if transaction:
+            transaction.delete()
+
+            message_dict = {
+                'message': 'Transaction deleted successfully',
+                'status_code': 200
+            }
+        else:
+            message_dict = {
+                'message': 'Transaction does not exist',
                 'status_code': 400
             }
 

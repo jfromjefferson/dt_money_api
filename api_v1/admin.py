@@ -14,5 +14,4 @@ class SysUserAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Owner, OwnerAdmin)
 admin.site.register(models.SysUser, SysUserAdmin)
-admin.site.register(models.Category)
 admin.site.register(models.Transaction)

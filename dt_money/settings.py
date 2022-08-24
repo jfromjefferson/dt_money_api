@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
 from pathlib import Path
 import os
 import dj_database_url
@@ -31,6 +32,14 @@ API_KEY = os.environ.get('DJANGO_API_KEY')
 
 ALLOWED_HOSTS = ['localhost', '.herokuapp.com']
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Username', 'Password', 'Sys-user-uuid', 'Api-key'
+]
+
 
 # Application definition
 
@@ -43,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'corsheaders',
 
     'api_v1.apps.ApiV1Config',
 ]
@@ -58,6 +68,9 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'dt_money.urls'

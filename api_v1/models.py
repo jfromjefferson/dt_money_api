@@ -29,22 +29,12 @@ class SysUser(models.Model):
         return self.user.username
 
 
-class Category(models.Model):
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-
-    title = models.CharField(max_length=60)
-
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-    created = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-
 class Transaction(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=255)
     value = models.IntegerField()
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    category = models.CharField(max_length=60)
     type = models.CharField(
         choices=(
             ('deposit', 'Deposit'),

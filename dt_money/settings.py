@@ -37,7 +37,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
-    'Username', 'Password', 'Sys-user-uuid', 'Api-key'
+    'Username', 'Password', 'Sys-user-uuid', 'Api-key', 'Transaction-uuid'
 ]
 
 

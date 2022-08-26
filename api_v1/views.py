@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 
@@ -166,7 +167,8 @@ class TransactionView(viewsets.ViewSet):
                 'value': transaction_temp.value,
                 'category': transaction_temp.category,
                 'type': transaction_temp.type,
-                'uuid': str(transaction_temp.uuid)
+                'uuid': str(transaction_temp.uuid),
+                'created': str(transaction_temp.created)
             })
 
         message_dict = {
@@ -189,13 +191,16 @@ class TransactionView(viewsets.ViewSet):
 
             transaction: Transaction = serializer.save(owner=owner)
 
-            message_dict = {
-                'message': f'Transaction <b>{transaction.title}</b> created successfully',
+            transaction_dict = {
+                'title': transaction.title,
+                'value': transaction.value,
+                'category': transaction.category,
+                'type': transaction.type,
                 'uuid': str(transaction.uuid),
-                'status_code': 200
+                'created': str(transaction.created)
             }
 
-            return response_message(message_dict)
+            return JsonResponse(transaction_dict)
         else:
             return get_error_dict(serializer, status_code=400)
 

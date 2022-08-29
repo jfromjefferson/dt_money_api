@@ -15,8 +15,12 @@ Pipfile.lock
 *.bak
 
 dist/
+data/
+nginx/ssl/
 
 dt_money/local_settings.py
+dt_money_env/
+dt_money/staticfiles/
 
 # If you are using PyCharm #
 .idea/**/workspace.xml

@@ -15,8 +15,8 @@ services:
       - ./dt_money/static:/var/www/static/
       - ./dt_money/staticfiles/admin:/var/www/static/admin/
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:80"
+      - "8001:443"
     networks:
       - dt_money_network
     depends_on:

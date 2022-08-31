@@ -29,12 +29,13 @@ DEBUG = os.environ.get('DJANGO_DEBUG') == 'DEBUG'
 
 API_KEY = os.environ.get('DJANGO_API_KEY')
 
-ALLOWED_HOSTS = ['localhost', '.herokuapp.com', 'dtmoney:8000', 'dtmoney']
+ALLOWED_HOSTS = ['localhost', '.herokuapp.com', 'dtmoney:8000', 'dtmoney', 'netlify.app']
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://peppy-paprenjak-b32f68.netlify.app/'
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [

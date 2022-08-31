@@ -11,12 +11,11 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/ssl/:/etc/nginx/ssl/
-      - ./dt_money/static:/var/www/static/
-      - ./dt_money/staticfiles/admin:/var/www/static/admin/
+      # - ./nginx/ssl/:/etc/nginx/ssl/
+      - ./dt_money/staticfiles:/var/www/static/
     ports:
-      - "8000:80"
-      - "8001:443"
+      - "9000:80"
+      - "9001:443"
     networks:
       - dt_money_network
     depends_on:
@@ -40,7 +39,7 @@ services:
     command: bash -c "python manage.py collectstatic --noinput  
       && python manage.py makemigrations
       && python manage.py migrate
-      && gunicorn dt_money.wsgi --bind 0.0.0.0 --reload"
+      && gunicorn dt_money.wsgi --bind 0.0.0.0:9000 --reload"
     volumes:
       - ./dt_money:/dt_money/
     networks:

@@ -35,7 +35,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://peppy-paprenjak-b32f68.netlify.app/'
+    'https://peppy-paprenjak-b32f68.netlify.app'
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [

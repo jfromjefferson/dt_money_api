@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import sys
 from corsheaders.defaults import default_headers
 from pathlib import Path
 import os
@@ -105,6 +106,9 @@ DATABASES = {
         'HOST': os.environ.get("POSTGRES_HOST"),
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 
 # Password validation

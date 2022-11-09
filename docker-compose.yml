@@ -22,7 +22,7 @@ services:
       - dtmoney
 
   dt_money-db:
-    image: postgres
+    image: postgres:14
     container_name: 'dt_money-database'
     volumes:
       - ./data/db/dt_money_db:/var/lib/postgresql/data/
